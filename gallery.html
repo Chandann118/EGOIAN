@@ -1,0 +1,924 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="theme-color" content="#231926" />
+    <title>Moments of Us — Secret Gallery ♡</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        --bg: #1a121d;
+        --card-bg: rgba(36, 26, 42, 0.78);
+        --border: rgba(255, 255, 255, 0.08);
+        --rose: #f08cb4;
+        --rose-glow: rgba(240, 140, 180, 0.35);
+        --lavender: #c2b6f0;
+        --text: #f7ebf3;
+        --muted: #a691a3;
+        --shadow: 0 16px 50px rgba(0, 0, 0, 0.45);
+      }
+
+      * { box-sizing: border-box; margin: 0; padding: 0; }
+
+      body {
+        min-height: 100vh;
+        background: radial-gradient(circle at 10% 10%, #2f1c32 0%, #170f1a 50%, #0e0910 100%);
+        color: var(--text);
+        font-family: 'Nunito', sans-serif;
+        padding-bottom: 60px;
+      }
+
+      header {
+        position: sticky;
+        top: 0;
+        z-index: 100;
+        backdrop-filter: blur(20px);
+        background: rgba(23, 15, 26, 0.85);
+        border-bottom: 1px solid var(--border);
+        padding: 14px 24px;
+      }
+
+      .header-inner {
+        max-width: 1280px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        flex-wrap: wrap;
+        gap: 12px;
+      }
+
+      .brand {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        text-decoration: none;
+        color: var(--text);
+      }
+
+      .brand-icon {
+        width: 38px;
+        height: 38px;
+        background: linear-gradient(135deg, #e2729e, #9780dc);
+        border-radius: 12px;
+        display: grid;
+        place-items: center;
+        font-size: 1.2rem;
+        box-shadow: 0 4px 15px var(--rose-glow);
+      }
+
+      .brand h1 {
+        font-family: 'Baloo 2', cursive;
+        font-size: 1.35rem;
+        font-weight: 700;
+        line-height: 1.1;
+      }
+
+      .brand p {
+        font-size: 0.72rem;
+        color: var(--muted);
+      }
+
+      .header-actions {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+      }
+
+      .pill-btn {
+        background: rgba(255, 255, 255, 0.07);
+        border: 1px solid var(--border);
+        color: var(--text);
+        padding: 8px 14px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        transition: all 0.2s ease;
+      }
+
+      .pill-btn:hover {
+        background: rgba(255, 255, 255, 0.14);
+        transform: translateY(-1px);
+      }
+
+      .pill-btn.active {
+        background: linear-gradient(135deg, #d36b96, #8871cd);
+        border-color: transparent;
+        box-shadow: 0 4px 15px var(--rose-glow);
+      }
+
+      .live-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #4ade80;
+        animation: pulse 1s infinite;
+      }
+
+      @keyframes pulse {
+        0% { transform: scale(0.9); opacity: 0.7; }
+        50% { transform: scale(1.2); opacity: 1; }
+        100% { transform: scale(0.9); opacity: 0.7; }
+      }
+
+      .container {
+        max-width: 1280px;
+        margin: 24px auto;
+        padding: 0 20px;
+      }
+
+      /* Stats Overview */
+      .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        gap: 14px;
+        margin-bottom: 24px;
+      }
+
+      .stat-card {
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 20px;
+        padding: 16px 20px;
+        backdrop-filter: blur(16px);
+        box-shadow: var(--shadow);
+      }
+
+      .stat-card .label {
+        font-size: 0.75rem;
+        text-transform: uppercase;
+        letter-spacing: 0.08em;
+        color: var(--muted);
+      }
+
+      .stat-card .value {
+        font-family: 'Baloo 2', cursive;
+        font-size: 1.8rem;
+        font-weight: 700;
+        color: var(--rose);
+        margin-top: 4px;
+      }
+
+      /* Filter Bar */
+      .filter-bar {
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        overflow-x: auto;
+        padding-bottom: 12px;
+        margin-bottom: 20px;
+      }
+
+      .filter-chip {
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        color: var(--muted);
+        padding: 8px 16px;
+        border-radius: 999px;
+        font-size: 0.82rem;
+        font-weight: 700;
+        cursor: pointer;
+        white-space: nowrap;
+        transition: all 0.2s;
+      }
+
+      .filter-chip:hover {
+        color: var(--text);
+        background: rgba(255, 255, 255, 0.09);
+      }
+
+      .filter-chip.active {
+        background: rgba(240, 140, 180, 0.18);
+        border-color: var(--rose);
+        color: var(--rose);
+      }
+
+      /* Moments Gallery Grid */
+      .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 18px;
+      }
+
+      .moment-card {
+        position: relative;
+        background: var(--card-bg);
+        border: 1px solid var(--border);
+        border-radius: 22px;
+        overflow: hidden;
+        backdrop-filter: blur(12px);
+        box-shadow: var(--shadow);
+        transition: transform 0.25s, box-shadow 0.25s, border-color 0.25s;
+        cursor: pointer;
+      }
+
+      .moment-card:hover {
+        transform: translateY(-4px);
+        border-color: rgba(240, 140, 180, 0.4);
+        box-shadow: 0 20px 45px rgba(0, 0, 0, 0.6);
+      }
+
+      .card-media {
+        width: 100%;
+        aspect-ratio: 4 / 3;
+        position: relative;
+        background: #1e1522;
+        overflow: hidden;
+      }
+
+      .card-media img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: transform 0.4s ease;
+      }
+
+      .moment-card:hover .card-media img {
+        transform: scale(1.05);
+      }
+
+      .card-overlay {
+        position: absolute;
+        inset: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%);
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        padding: 12px;
+      }
+
+      .badge-row {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+      }
+
+      .action-badge {
+        font-size: 0.72rem;
+        font-weight: 800;
+        padding: 4px 10px;
+        border-radius: 999px;
+        background: rgba(18, 12, 22, 0.75);
+        backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.12);
+        color: var(--text);
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+      }
+
+      .action-heart { color: #f472b6; border-color: rgba(244, 114, 182, 0.4); }
+      .action-dance { color: #fbbf24; border-color: rgba(251, 191, 36, 0.4); }
+      .action-wave { color: #60a5fa; border-color: rgba(96, 165, 250, 0.4); }
+      .action-talking { color: #34d399; border-color: rgba(52, 211, 153, 0.4); }
+      .action-low_movement { color: #c084fc; border-color: rgba(192, 132, 252, 0.4); }
+
+      .card-info {
+        padding: 14px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+      }
+
+      .time-info {
+        font-size: 0.78rem;
+        color: var(--muted);
+      }
+
+      .quick-download-btn {
+        background: rgba(255, 255, 255, 0.08);
+        border: none;
+        color: var(--text);
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        transition: background 0.2s, transform 0.2s;
+      }
+
+      .quick-download-btn:hover {
+        background: var(--rose);
+        transform: scale(1.1);
+      }
+
+      /* Empty State */
+      .empty-state {
+        text-align: center;
+        padding: 80px 20px;
+        color: var(--muted);
+      }
+
+      .empty-icon {
+        font-size: 3.5rem;
+        margin-bottom: 12px;
+        color: var(--rose);
+      }
+
+      /* Lightbox Modal */
+      .modal-backdrop {
+        position: fixed;
+        inset: 0;
+        z-index: 1000;
+        background: rgba(9, 6, 12, 0.88);
+        backdrop-filter: blur(16px);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 20px;
+        animation: fadeIn 0.25s ease;
+      }
+
+      .modal-content {
+        max-width: 900px;
+        width: 100%;
+        background: #201625;
+        border: 1px solid var(--border);
+        border-radius: 28px;
+        overflow: hidden;
+        box-shadow: 0 25px 80px rgba(0, 0, 0, 0.8);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+      }
+
+      .modal-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        padding: 16px 22px;
+        border-bottom: 1px solid var(--border);
+      }
+
+      .modal-body {
+        position: relative;
+        background: #110b14;
+        display: grid;
+        place-items: center;
+        max-height: 70vh;
+        overflow: hidden;
+      }
+
+      .modal-body img {
+        max-width: 100%;
+        max-height: 70vh;
+        object-fit: contain;
+      }
+
+      .modal-nav {
+        position: absolute;
+        top: 50%;
+        transform: translateY(-50%);
+        background: rgba(30, 20, 36, 0.75);
+        color: white;
+        border: 1px solid rgba(255,255,255,0.15);
+        width: 44px;
+        height: 44px;
+        border-radius: 50%;
+        display: grid;
+        place-items: center;
+        cursor: pointer;
+        font-size: 1.2rem;
+        transition: background 0.2s, transform 0.2s;
+        backdrop-filter: blur(8px);
+      }
+      .modal-nav:hover { background: var(--rose); transform: translateY(-50%) scale(1.1); }
+      .modal-prev { left: 16px; }
+      .modal-next { right: 16px; }
+
+      .modal-footer {
+        padding: 16px 22px;
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        flex-wrap: wrap;
+        gap: 12px;
+        background: #1c1320;
+      }
+
+      .modal-meta {
+        font-size: 0.84rem;
+        color: var(--muted);
+      }
+
+      .modal-actions {
+        display: flex;
+        gap: 10px;
+      }
+
+      .btn-primary {
+        background: linear-gradient(135deg, #dc759f, #947bde);
+        border: none;
+        color: white;
+        padding: 9px 18px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+      }
+
+      .btn-danger {
+        background: rgba(239, 68, 68, 0.15);
+        color: #f87171;
+        border: 1px solid rgba(239, 68, 68, 0.3);
+        padding: 9px 16px;
+        border-radius: 999px;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .btn-danger:hover { background: #ef4444; color: white; }
+
+      .btn-close {
+        background: transparent;
+        border: none;
+        color: var(--muted);
+        font-size: 1.6rem;
+        cursor: pointer;
+        line-height: 1;
+      }
+      .btn-close:hover { color: var(--text); }
+
+      /* Settings Modal */
+      .config-input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.05);
+        border: 1px solid var(--border);
+        border-radius: 12px;
+        color: white;
+        padding: 10px 14px;
+        font-family: inherit;
+        margin-top: 6px;
+        margin-bottom: 14px;
+      }
+
+      @keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
+
+      @media (max-width: 640px) {
+        .gallery-grid { grid-template-columns: repeat(2, 1fr); gap: 10px; }
+        .card-info { padding: 8px 10px; }
+        .modal-body { max-height: 55vh; }
+        .modal-body img { max-height: 55vh; }
+      }
+    </style>
+  </head>
+  <body>
+    <!-- Top Navigation Header -->
+    <header>
+      <div class="header-inner">
+        <a href="./index.html" class="brand">
+          <div class="brand-icon">♡</div>
+          <div>
+            <h1>Moments of Us</h1>
+            <p>Secret captured moments &amp; surprises</p>
+          </div>
+        </a>
+
+        <div class="header-actions">
+          <button id="live-toggle" class="pill-btn active">
+            <span class="live-dot"></span> Live Stream (3s)
+          </button>
+          <button id="refresh-btn" class="pill-btn">
+            ↻ Refresh
+          </button>
+          <button id="settings-btn" class="pill-btn">
+            ⚙ Supabase Keys
+          </button>
+          <a href="./index.html" class="pill-btn">
+            ← Back to Mirror
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <main class="container">
+      <!-- Stats Row -->
+      <section class="stats-grid">
+        <div class="stat-card">
+          <div class="label">Total Captured</div>
+          <div id="stat-total" class="value">0</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Top Gesture</div>
+          <div id="stat-top-action" class="value">—</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Last Capture</div>
+          <div id="stat-last-time" class="value" style="font-size: 1.3rem;">Never</div>
+        </div>
+        <div class="stat-card">
+          <div class="label">Storage Status</div>
+          <div id="stat-connection" class="value" style="font-size: 1.15rem; color: #a78bfa;">Supabase</div>
+        </div>
+      </section>
+
+      <!-- Category Filter Chips -->
+      <nav class="filter-bar" aria-label="Moments filter">
+        <button class="filter-chip active" data-filter="all">All Moments (<span id="count-all">0</span>)</button>
+        <button class="filter-chip" data-filter="heart_shape">Hearts ♡ (<span id="count-heart">0</span>)</button>
+        <button class="filter-chip" data-filter="wave">Waves 👋 (<span id="count-wave">0</span>)</button>
+        <button class="filter-chip" data-filter="dance">Dances ✨ (<span id="count-dance">0</span>)</button>
+        <button class="filter-chip" data-filter="talking">Talking 💬 (<span id="count-talk">0</span>)</button>
+        <button class="filter-chip" data-filter="low_movement">Smiles 😊 (<span id="count-idle">0</span>)</button>
+      </nav>
+
+      <!-- Photo Grid -->
+      <div id="gallery-grid" class="gallery-grid">
+        <!-- Rendered dynamically -->
+      </div>
+
+      <!-- Empty State -->
+      <div id="empty-state" class="empty-state" style="display: none;">
+        <div class="empty-icon">♡</div>
+        <h3 style="font-family: 'Baloo 2'; font-size: 1.6rem; color: var(--text);">No moments found yet</h3>
+        <p style="margin-top: 6px;">As she interacts with the Mirror on her phone, photos will appear here automatically!</p>
+        <a href="./index.html" class="btn-primary" style="margin-top: 18px; text-decoration: none;">Launch Mirror</a>
+      </div>
+    </main>
+
+    <!-- Lightbox Fullscreen Modal -->
+    <div id="lightbox-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-content">
+        <div class="modal-header">
+          <div id="modal-title" style="font-weight: 700;">Moment Preview</div>
+          <button id="modal-close" class="btn-close">&times;</button>
+        </div>
+        <div class="modal-body">
+          <button id="modal-prev" class="modal-nav modal-prev">&#10094;</button>
+          <img id="modal-image" src="" alt="Captured moment" />
+          <button id="modal-next" class="modal-nav modal-next">&#10095;</button>
+        </div>
+        <div class="modal-footer">
+          <div id="modal-meta" class="modal-meta">
+            <!-- Metadata -->
+          </div>
+          <div class="modal-actions">
+            <button id="modal-download" class="btn-primary">⬇ Download</button>
+            <button id="modal-delete" class="btn-danger">Delete</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Settings / Key Configuration Modal -->
+    <div id="settings-modal" class="modal-backdrop" style="display: none;">
+      <div class="modal-content" style="max-width: 500px; padding: 24px;">
+        <div class="modal-header" style="padding: 0 0 16px 0;">
+          <h3 style="font-family: 'Baloo 2'; font-size: 1.4rem;">Supabase Connection Settings</h3>
+          <button id="settings-close" class="btn-close">&times;</button>
+        </div>
+        <p style="font-size: 0.84rem; color: var(--muted); margin-bottom: 16px;">
+          For a private bucket (<code>gf-moments</code>), you can provide your private Service Role key or updated Anon key to generate secure signed URLs for downloading and viewing.
+        </p>
+        <label style="font-size: 0.8rem; font-weight: 700;">Supabase Project URL</label>
+        <input id="cfg-url" type="text" class="config-input" placeholder="https://xyz.supabase.co" />
+
+        <label style="font-size: 0.8rem; font-weight: 700;">Supabase Anon or Service Key</label>
+        <input id="cfg-key" type="password" class="config-input" placeholder="eyJhbGciOi..." />
+
+        <div style="display: flex; justify-content: flex-end; gap: 10px; margin-top: 10px;">
+          <button id="cfg-reset" class="pill-btn">Reset Defaults</button>
+          <button id="cfg-save" class="btn-primary">Save &amp; Reload</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Supabase JS Client & App Modules -->
+    <script>
+      // Load any saved custom credentials from localStorage
+      try {
+        const savedUrl = localStorage.getItem("mirror_sb_url");
+        const savedKey = localStorage.getItem("mirror_sb_key");
+        if (savedUrl && savedKey) {
+          window.__MIRROR_ENV_OVERRIDE__ = { SUPABASE_URL: savedUrl, SUPABASE_ANON_KEY: savedKey };
+        }
+      } catch (_) {}
+
+      window.__MIRROR_ENV__ = {
+        SUPABASE_URL: "https://epjjteqytxdkahcesmzv.supabase.co",
+        SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamp0ZXF5dHhka2FoY2VzbXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDYwOTMsImV4cCI6MjEwMzkyMjA5M30.mHtJx2VSa0btzfRf8AKbxEtUP9kwOAf4x2bsyDXMv60"
+      };
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="./supabase.js"></script>
+
+    <!-- Gallery Controller -->
+    <script>
+      (function () {
+        const state = {
+          moments: [],
+          signedUrlCache: {},
+          currentFilter: "all",
+          isLivePolling: true,
+          pollTimer: null,
+          currentIndex: -1
+        };
+
+        const $ = id => document.getElementById(id);
+
+        const actionLabels = {
+          heart_shape: { name: "Heart ♡", cls: "action-heart" },
+          dance: { name: "Dancing ✨", cls: "action-dance" },
+          wave: { name: "Waving 👋", cls: "action-wave" },
+          talking: { name: "Talking 💬", cls: "action-talking" },
+          low_movement: { name: "Smile 😊", cls: "action-low_movement" }
+        };
+
+        function timeAgo(dateString) {
+          if (!dateString) return "recently";
+          const d = new Date(dateString);
+          const diff = Math.floor((Date.now() - d.getTime()) / 1000);
+          if (diff < 5) return "just now";
+          if (diff < 60) return `${diff}s ago`;
+          if (diff < 3600) return `${Math.floor(diff / 60)}m ago`;
+          if (diff < 86400) return `${Math.floor(diff / 3600)}h ago`;
+          return d.toLocaleDateString();
+        }
+
+        async function resolvePhotoUrl(moment) {
+          if (!moment) return "";
+          if (state.signedUrlCache[moment.file_url]) {
+            return state.signedUrlCache[moment.file_url];
+          }
+          try {
+            const url = await window.mirrorStore.getSignedPhotoUrl(moment.file_url);
+            state.signedUrlCache[moment.file_url] = url;
+            return url;
+          } catch (e) {
+            console.warn("Could not get signed URL for", moment.file_url, e);
+            return moment.file_url;
+          }
+        }
+
+        async function loadMoments() {
+          try {
+            const list = await window.mirrorStore.fetchMoments({ limit: 100 });
+            state.moments = list;
+            updateStats();
+            renderGallery();
+          } catch (err) {
+            console.error("Failed to load moments:", err);
+            $("stat-connection").textContent = "Auth / RLS Error";
+            $("stat-connection").style.color = "#f87171";
+          }
+        }
+
+        function updateStats() {
+          $("stat-total").textContent = state.moments.length;
+          $("stat-connection").textContent = window.mirrorStore.isMock ? "Mock Mode" : "Supabase Connected";
+          $("stat-connection").style.color = window.mirrorStore.isMock ? "#fbbf24" : "#4ade80";
+
+          // Action breakdown
+          const counts = { heart_shape: 0, wave: 0, dance: 0, talking: 0, low_movement: 0 };
+          state.moments.forEach(m => {
+            const act = m.detected_action || "low_movement";
+            counts[act] = (counts[act] || 0) + 1;
+          });
+
+          $("count-all").textContent = state.moments.length;
+          $("count-heart").textContent = counts.heart_shape || 0;
+          $("count-wave").textContent = counts.wave || 0;
+          $("count-dance").textContent = counts.dance || 0;
+          $("count-talk").textContent = counts.talking || 0;
+          $("count-idle").textContent = counts.low_movement || 0;
+
+          // Top action
+          let topAct = "None";
+          let topCount = 0;
+          Object.entries(counts).forEach(([act, c]) => {
+            if (c > topCount) { topCount = c; topAct = actionLabels[act]?.name || act; }
+          });
+          $("stat-top-action").textContent = topCount > 0 ? topAct : "None";
+
+          // Last time
+          if (state.moments.length > 0) {
+            $("stat-last-time").textContent = timeAgo(state.moments[0].created_at);
+          } else {
+            $("stat-last-time").textContent = "Never";
+          }
+        }
+
+        function getFilteredMoments() {
+          if (state.currentFilter === "all") return state.moments;
+          return state.moments.filter(m => m.detected_action === state.currentFilter);
+        }
+
+        async function renderGallery() {
+          const grid = $("gallery-grid");
+          const empty = $("empty-state");
+          const filtered = getFilteredMoments();
+
+          if (filtered.length === 0) {
+            grid.innerHTML = "";
+            empty.style.display = "block";
+            return;
+          }
+
+          empty.style.display = "none";
+          grid.innerHTML = "";
+
+          for (let i = 0; i < filtered.length; i++) {
+            const m = filtered[i];
+            const meta = actionLabels[m.detected_action] || { name: m.detected_action || "Moment", cls: "action-low_movement" };
+            const card = document.createElement("div");
+            card.className = "moment-card";
+            card.dataset.index = i;
+
+            card.innerHTML = `
+              <div class="card-media">
+                <img id="img-${m.id}" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='400' height='300'%3E%3Crect width='100%25' height='100%25' fill='%23201625'/%3E%3C/svg%3E" alt="Moment ${m.id}" loading="lazy" />
+                <div class="card-overlay">
+                  <div class="badge-row">
+                    <span class="action-badge ${meta.cls}">${meta.name}</span>
+                  </div>
+                </div>
+              </div>
+              <div class="card-info">
+                <span class="time-info">♡ ${timeAgo(m.created_at)}</span>
+                <button class="quick-download-btn" title="Download photo" data-download-id="${m.id}">⬇</button>
+              </div>
+            `;
+
+            card.addEventListener("click", e => {
+              if (e.target.closest(".quick-download-btn")) return;
+              openLightbox(i);
+            });
+
+            const dlBtn = card.querySelector(".quick-download-btn");
+            dlBtn.addEventListener("click", async e => {
+              e.stopPropagation();
+              const url = await resolvePhotoUrl(m);
+              downloadPhoto(url, `moment-${m.detected_action}-${m.id}.jpg`);
+            });
+
+            grid.appendChild(card);
+
+            // Asynchronously resolve image signed URL
+            resolvePhotoUrl(m).then(url => {
+              const imgElem = document.getElementById(`img-${m.id}`);
+              if (imgElem && url) imgElem.src = url;
+            });
+          }
+        }
+
+        // Lightbox Handler
+        async function openLightbox(index) {
+          const filtered = getFilteredMoments();
+          if (index < 0 || index >= filtered.length) return;
+          state.currentIndex = index;
+          const m = filtered[index];
+          const meta = actionLabels[m.detected_action] || { name: m.detected_action || "Moment", cls: "" };
+
+          $("modal-title").textContent = `${meta.name} • ${new Date(m.created_at).toLocaleTimeString()}`;
+          $("modal-image").src = "data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='600' height='450'%3E%3Crect width='100%25' height='100%25' fill='%23110b14'/%3E%3C/svg%3E";
+          
+          $("modal-meta").innerHTML = `
+            <strong>Action:</strong> ${m.detected_action || "low_movement"} &bull; 
+            <strong>Animation:</strong> ${m.animation_shown || "smile"} &bull; 
+            <strong>Date:</strong> ${new Date(m.created_at).toLocaleString()}
+          `;
+
+          $("lightbox-modal").style.display = "flex";
+
+          const url = await resolvePhotoUrl(m);
+          $("modal-image").src = url;
+        }
+
+        function closeLightbox() {
+          $("lightbox-modal").style.display = "none";
+          state.currentIndex = -1;
+        }
+
+        function downloadPhoto(url, filename) {
+          const a = document.createElement("a");
+          a.href = url;
+          a.download = filename || "moment.jpg";
+          a.target = "_blank";
+          document.body.appendChild(a);
+          a.click();
+          document.body.removeChild(a);
+        }
+
+        // Navigation
+        $("modal-prev").addEventListener("click", () => {
+          const filtered = getFilteredMoments();
+          if (state.currentIndex > 0) openLightbox(state.currentIndex - 1);
+          else openLightbox(filtered.length - 1);
+        });
+
+        $("modal-next").addEventListener("click", () => {
+          const filtered = getFilteredMoments();
+          if (state.currentIndex < filtered.length - 1) openLightbox(state.currentIndex + 1);
+          else openLightbox(0);
+        });
+
+        $("modal-close").addEventListener("click", closeLightbox);
+        $("lightbox-modal").addEventListener("click", e => {
+          if (e.target === $("lightbox-modal")) closeLightbox();
+        });
+
+        document.addEventListener("keydown", e => {
+          if ($("lightbox-modal").style.display === "flex") {
+            if (e.key === "Escape") closeLightbox();
+            if (e.key === "ArrowLeft") $("modal-prev").click();
+            if (e.key === "ArrowRight") $("modal-next").click();
+          }
+        });
+
+        $("modal-download").addEventListener("click", async () => {
+          const filtered = getFilteredMoments();
+          const m = filtered[state.currentIndex];
+          if (!m) return;
+          const url = await resolvePhotoUrl(m);
+          downloadPhoto(url, `moment-${m.detected_action}-${m.id}.jpg`);
+        });
+
+        $("modal-delete").addEventListener("click", async () => {
+          const filtered = getFilteredMoments();
+          const m = filtered[state.currentIndex];
+          if (!m || !confirm("Delete this moment permanently?")) return;
+          await window.mirrorStore.deleteMoment(m.id, m.file_url);
+          closeLightbox();
+          loadMoments();
+        });
+
+        // Filter chips
+        document.querySelectorAll(".filter-chip").forEach(btn => {
+          btn.addEventListener("click", () => {
+            document.querySelectorAll(".filter-chip").forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            state.currentFilter = btn.dataset.filter;
+            renderGallery();
+          });
+        });
+
+        // Live Polling
+        function toggleLivePolling() {
+          state.isLivePolling = !state.isLivePolling;
+          const btn = $("live-toggle");
+          if (state.isLivePolling) {
+            btn.classList.add("active");
+            startPolling();
+          } else {
+            btn.classList.remove("active");
+            stopPolling();
+          }
+        }
+
+        function startPolling() {
+          stopPolling();
+          state.pollTimer = setInterval(loadMoments, 3000);
+        }
+
+        function stopPolling() {
+          if (state.pollTimer) clearInterval(state.pollTimer);
+        }
+
+        $("live-toggle").addEventListener("click", toggleLivePolling);
+        $("refresh-btn").addEventListener("click", loadMoments);
+
+        // Settings Modal
+        $("settings-btn").addEventListener("click", () => {
+          $("cfg-url").value = localStorage.getItem("mirror_sb_url") || window.__MIRROR_ENV__.SUPABASE_URL;
+          $("cfg-key").value = localStorage.getItem("mirror_sb_key") || window.__MIRROR_ENV__.SUPABASE_ANON_KEY;
+          $("settings-modal").style.display = "flex";
+        });
+
+        $("settings-close").addEventListener("click", () => {
+          $("settings-modal").style.display = "none";
+        });
+
+        $("cfg-reset").addEventListener("click", () => {
+          localStorage.removeItem("mirror_sb_url");
+          localStorage.removeItem("mirror_sb_key");
+          location.reload();
+        });
+
+        $("cfg-save").addEventListener("click", () => {
+          const u = $("cfg-url").value.trim();
+          const k = $("cfg-key").value.trim();
+          if (u && k) {
+            localStorage.setItem("mirror_sb_url", u);
+            localStorage.setItem("mirror_sb_key", k);
+            window.mirrorStore.reconfigure(u, k);
+            $("settings-modal").style.display = "none";
+            loadMoments();
+          }
+        });
+
+        // Initial launch
+        loadMoments();
+        startPolling();
+      })();
+    </script>
+  </body>
+</html>
