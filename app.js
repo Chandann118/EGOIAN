@@ -6,9 +6,7 @@
     captureTimer: null,
     uploadQueue: [],
     isUploading: false,
-    activeLottie: null,
-    lottieInstances: {},
-    lottieFailed: false
+    gifFailed: false
   };
 
   const video = $("camera-video");
@@ -31,79 +29,35 @@
     low_movement: "smile"
   };
 
-  // Preload and manage Lottie animations with CSS character fallback
-  function initLottie() {
-    if (!window.lottie) {
-      console.warn("Lottie library not loaded, using CSS avatar fallback.");
-      state.lottieFailed = true;
-      return;
+  // Switch cute animated GIF reaction
+  function switchReactionVisuals(animName) {
+    const gifImg = $("gif-character");
+    if (gifImg && !state.gifFailed) {
+      const nextSrc = `./assets/${animName}.gif`;
+      if (!gifImg.src.endsWith(nextSrc.replace("./", "/"))) {
+        gifImg.src = nextSrc;
+        gifImg.classList.remove("pop-anim");
+        void gifImg.offsetWidth; // trigger reflow
+        gifImg.classList.add("pop-anim");
+      }
     }
 
-    const container = $("lottie-container");
-    if (!container) return;
-
-    const animList = ["smile", "wave", "dance", "heart", "talk"];
-    animList.forEach(name => {
-      const animDiv = document.createElement("div");
-      animDiv.id = `lottie-anim-${name}`;
-      animDiv.className = "lottie-item";
-      animDiv.style.display = name === "smile" ? "block" : "none";
-      container.appendChild(animDiv);
-
-      try {
-        const instance = window.lottie.loadAnimation({
-          container: animDiv,
-          renderer: "svg",
-          loop: true,
-          autoplay: name === "smile",
-          path: `./assets/${name}.json`
-        });
-        state.lottieInstances[name] = { div: animDiv, instance };
-      } catch (err) {
-        console.warn(`Could not load Lottie animation for ${name}:`, err);
-        state.lottieFailed = true;
-      }
-    });
-  }
-
-  function switchLottie(animName) {
-    if (state.lottieFailed || !window.lottie) return;
-    const current = state.lottieInstances[animName];
-    if (!current) return;
-
-    // Switch visible Lottie item
-    Object.keys(state.lottieInstances).forEach(k => {
-      const item = state.lottieInstances[k];
-      if (k === animName) {
-        item.div.style.display = "block";
-        item.instance.goToAndPlay(0, true);
-      } else {
-        item.div.style.display = "none";
-        item.instance.stop();
-      }
-    });
-
-    // Hide CSS avatar if Lottie is active
+    // CSS Avatar fallback
     const avatar = $("avatar");
-    if (avatar) avatar.style.opacity = "0.08";
+    if (avatar) {
+      avatar.className = `avatar avatar-${animName}`;
+    }
   }
 
   function setReaction(action) {
-    if (action === state.lastAction && state.lastActionTime && Date.now() - state.lastActionTime < 1500) {
+    if (action === state.lastAction && state.lastActionTime && Date.now() - state.lastActionTime < 1400) {
       return;
     }
     state.lastAction = action;
     state.lastActionTime = Date.now();
     state.animation = animationKeys[action] || "smile";
 
-    // Update CSS avatar as fallback/base
-    const avatar = $("avatar");
-    if (avatar) {
-      avatar.className = `avatar avatar-${state.animation}`;
-    }
-
-    // Switch Lottie
-    switchLottie(state.animation);
+    switchReactionVisuals(state.animation);
 
     // Update text and bubbles
     $("action-label").textContent = labels[action] || labels.low_movement;
@@ -162,7 +116,6 @@
           }, 800);
         }
       }
-      // Process next in queue
       if (state.uploadQueue.length > 0) {
         processUploadQueue();
       }
@@ -170,8 +123,8 @@
   }
 
   function enqueuePhoto(blob, action, animation) {
-    // Keep max 6 items in queue to prevent memory build-up if network is very slow
-    if (state.uploadQueue.length >= 6) {
+    // Keep max 5 items in queue to prevent memory build-up if network is slow
+    if (state.uploadQueue.length >= 5) {
       state.uploadQueue.shift();
     }
     state.uploadQueue.push({ blob, action, animation });
@@ -185,7 +138,6 @@
     }
 
     try {
-      // Ensure canvas matches video aspect
       const vw = video.videoWidth || 1280;
       const vh = video.videoHeight || 720;
       if (canvas.width !== vw) canvas.width = vw;
@@ -198,7 +150,6 @@
           if (blob) enqueuePhoto(blob, state.lastAction, state.animation);
         }, "image/jpeg", 0.88);
       } else {
-        // Fallback for older Safari
         const dataUrl = canvas.toDataURL("image/jpeg", 0.88);
         fetch(dataUrl)
           .then(res => res.blob())
@@ -242,8 +193,16 @@
       $("consent-screen").hidden = true;
       $("experience").hidden = false;
 
-      // Initialize Lottie player
-      initLottie();
+      // Handle GIF error fallback to CSS avatar
+      const gifImg = $("gif-character");
+      if (gifImg) {
+        gifImg.onerror = () => {
+          state.gifFailed = true;
+          gifImg.style.display = "none";
+          const av = $("avatar");
+          if (av) av.style.display = "block";
+        };
+      }
 
       // Start MediaPipe detection
       const detector = new MirrorDetector(video, handleDetection);
@@ -259,12 +218,8 @@
       camera.start();
 
       // Take photo every 2 seconds (2000 ms)
-      capturePhoto(); // initial photo
+      capturePhoto();
       state.captureTimer = setInterval(capturePhoto, 2000);
-
-      if (window.mirrorStore.isMock) {
-        console.info("[Mirror of Us] Mock mode active: photos saved locally. Open gallery.html to view.");
-      }
     } catch (error) {
       console.error("Camera access error:", error);
       startBtn.disabled = false;
