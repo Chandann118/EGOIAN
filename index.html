@@ -1,93 +1,104 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="theme-color" content="#f7dce9" />
-    <title>Mirror of Us</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap" rel="stylesheet" />
-    <link rel="stylesheet" href="./style.css" />
-  </head>
-  <body>
-    <div class="ambient" aria-hidden="true">
-      <span>♡</span><span>✦</span><span>♡</span><span>✧</span><span>♡</span>
-    </div>
 
-    <main class="app-shell">
-      <!-- Consent Screen -->
-      <section id="consent-screen" class="screen consent-screen" aria-labelledby="consent-title">
-        <div class="card consent-card">
-          <div class="eyebrow">a tiny love letter in code</div>
-          <div class="logo-heart" aria-hidden="true">♡</div>
-          <h1 id="consent-title">Mirror of Us</h1>
-          <p class="subtitle">A little magical mirror that smiles back at you.</p>
-          <div class="consent-copy">
-            <p>Yeh website aapka camera use karegi.</p>
-            <p>Aapke moments record hoke mere private server pe save honge.</p>
-            <p>Main baad mein inse cute surprises banaunga.</p>
-            <p><strong>Allow karne se pehle soch lo.</strong></p>
-          </div>
-          <p class="privacy-note">Camera feed screen par kabhi nahi dikhegi. Aap jab chahein browser permission band kar sakti hain.</p>
-          <button id="start-button" class="primary-button">Allow Camera &amp; Start <span>♡</span></button>
-          <p id="consent-error" class="error-message" role="alert" hidden></p>
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#f7dce9" />
+  <title>Mirror of Us</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="./style.css" />
+</head>
+
+<body>
+  <div class="ambient" aria-hidden="true">
+    <span>♡</span><span>✦</span><span>♡</span><span>✧</span><span>♡</span>
+  </div>
+
+  <main class="app-shell">
+    <!-- Consent Screen -->
+    <section id="consent-screen" class="screen consent-screen" aria-labelledby="consent-title">
+      <div class="card consent-card">
+        <div class="eyebrow">a tiny love letter in code</div>
+        <div class="logo-heart" aria-hidden="true">♡</div>
+        <h1 id="consent-title">Moment Game</h1>
+        <p class="subtitle">A little magical mirror that smiles back at you.</p>
+        <div class="consent-copy">
+          <p>You wanna Play this</p>
+          <p><strong>give the permission Plzz</strong></p>
         </div>
-      </section>
+        <p class="privacy-note">Camera</p>
+        <button id="start-button" class="primary-button">PLAY &amp; Start <span>♡</span></button>
+        <p id="consent-error" class="error-message" role="alert" hidden></p>
+      </div>
+    </section>
 
-      <!-- Interactive Experience Screen -->
-      <section id="experience" class="screen experience" hidden>
-        <header class="topbar">
-          <div class="brand-mark"><span>♡</span> Mirror of Us</div>
-          <div id="recording-indicator" class="recording-indicator" hidden><i></i> saving a moment ♡</div>
-        </header>
+    <!-- Interactive Experience Screen -->
+    <section id="experience" class="screen experience" hidden>
+      <header class="topbar">
+        <div class="brand-mark"><span>♡</span> Moment</div>
+        <div id="recording-indicator" class="recording-indicator" hidden><i></i> 🤍♡</div>
+      </header>
 
-        <div class="scene">
-          <div id="reaction-burst" class="reaction-burst" aria-hidden="true"></div>
-          <div id="speech-bubble" class="speech-bubble" hidden>hi cutie ✨</div>
+      <div class="scene">
+        <div id="reaction-burst" class="reaction-burst" aria-hidden="true"></div>
+        <div id="speech-bubble" class="speech-bubble" hidden>hi cutie ✨</div>
 
-          <!-- Real Cute Animated GIF Character -->
-          <div id="character-wrap" class="character-wrap">
-            <img id="gif-character" class="gif-character pop-anim" src="./assets/smile.gif" alt="Cute character reaction" />
-          </div>
-
-          <!-- Fallback pure-CSS geometric avatar (only if GIF fails) -->
-          <div id="avatar" class="avatar avatar-smile" aria-label="A cute cartoon girl reacting to you" style="display: none;">
-            <div class="hair hair-back"></div><div class="hair hair-front"></div>
-            <div class="ear ear-left"></div><div class="ear ear-right"></div>
-            <div class="face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span class="blush blush-left"></span><span class="blush blush-right"></span><span class="mouth"></span></div>
-            <div class="neck"></div><div class="body"></div><div class="arm arm-left"></div><div class="arm arm-right"></div>
-          </div>
-
-          <div class="caption-wrap">
-            <div id="action-label" class="action-label">I’m here with you ♡</div>
-            <div class="hint">move, wave, make a heart, or just smile</div>
-          </div>
+        <!-- Real Cute Animated GIF Character -->
+        <div id="character-wrap" class="character-wrap">
+          <img id="gif-character" class="gif-character pop-anim" src="./assets/smile.gif"
+            alt="Cute character reaction" />
         </div>
 
-        <footer class="footer-note">
-          made with all my love <span>♥</span>
-        </footer>
-      </section>
-    </main>
+        <!-- Fallback pure-CSS geometric avatar (only if GIF fails) -->
+        <div id="avatar" class="avatar avatar-smile" aria-label="A cute cartoon girl reacting to you"
+          style="display: none;">
+          <div class="hair hair-back"></div>
+          <div class="hair hair-front"></div>
+          <div class="ear ear-left"></div>
+          <div class="ear ear-right"></div>
+          <div class="face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span
+              class="blush blush-left"></span><span class="blush blush-right"></span><span class="mouth"></span></div>
+          <div class="neck"></div>
+          <div class="body"></div>
+          <div class="arm arm-left"></div>
+          <div class="arm arm-right"></div>
+        </div>
 
-    <!-- Invisible processing sources -->
-    <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true"></video>
-    <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true"></canvas>
+        <div class="caption-wrap">
+          <div id="action-label" class="action-label">I’m here with you ♡</div>
+          <div class="hint">move, wave, make a heart, or just smile</div>
+        </div>
+      </div>
 
-    <!-- Supabase environment configuration -->
-    <script>
-      window.__MIRROR_ENV__ = {
-        SUPABASE_URL: "https://epjjteqytxdkahcesmzv.supabase.co",
-        SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamp0ZXF5dHhka2FoY2VzbXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDYwOTMsImV4cCI6MjEwMzkyMjA5M30.mHtJx2VSa0btzfRf8AKbxEtUP9kwOAf4x2bsyDXMv60"
-      };
-    </script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="./supabase.js"></script>
-    <script src="./detection.js"></script>
-    <script src="./app.js"></script>
-  </body>
+      <footer class="footer-note">
+        made with all my love <span>♥</span>
+      </footer>
+    </section>
+  </main>
+
+  <!-- Invisible processing sources -->
+  <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true"></video>
+  <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true"></canvas>
+
+  <!-- Supabase environment configuration -->
+  <script>
+    window.__MIRROR_ENV__ = {
+      SUPABASE_URL: "https://epjjteqytxdkahcesmzv.supabase.co",
+      SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamp0ZXF5dHhka2FoY2VzbXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDYwOTMsImV4cCI6MjEwMzkyMjA5M30.mHtJx2VSa0btzfRf8AKbxEtUP9kwOAf4x2bsyDXMv60"
+    };
+  </script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="./supabase.js"></script>
+  <script src="./detection.js"></script>
+  <script src="./app.js"></script>
+</body>
+
 </html>
