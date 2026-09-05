@@ -82,8 +82,8 @@
   </main>
 
   <!-- Invisible processing sources -->
-  <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true"></video>
-  <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true"></canvas>
+  <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-9999;"></video>
+  <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true" style="display:none;position:fixed;top:-9999px;left:-9999px;width:0;height:0;opacity:0;pointer-events:none;z-index:-9999;"></canvas>
 
   <!-- Supabase environment configuration -->
   <script>

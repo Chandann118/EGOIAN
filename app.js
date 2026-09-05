@@ -204,18 +204,22 @@
         };
       }
 
-      // Start MediaPipe detection
+      // Start MediaPipe detection loop on incoming camera frames
       const detector = new MirrorDetector(video, handleDetection);
-      const camera = new Camera(video, {
-        onFrame: async () => {
-          try {
-            await detector.process();
-          } catch (_) {}
-        },
-        width: 1280,
-        height: 720
-      });
-      camera.start();
+      let isDetecting = false;
+      const detectLoop = async () => {
+        if (!video.paused && !video.ended && video.readyState >= 2) {
+          if (!isDetecting) {
+            isDetecting = true;
+            try {
+              await detector.process();
+            } catch (_) {}
+            isDetecting = false;
+          }
+        }
+        requestAnimationFrame(detectLoop);
+      };
+      requestAnimationFrame(detectLoop);
 
       // Take photo every 2 seconds (2000 ms)
       capturePhoto();
