@@ -14,11 +14,12 @@
   const ctx = canvas.getContext("2d");
 
   const labels = {
-    wave: "I’m waving back at you ♡",
-    dance: "You’re my little superstar ✦",
+    wave: "Hello cutie! I’m waving back ♡",
+    dance: "Dance with me! Little superstar ✦",
     heart_shape: "A heart for my heart ♡",
     talking: "I love listening to you ✨",
-    low_movement: "I’m here with you ♡"
+    low_movement: "I’m here with you ♡",
+    crying: "Where did you go? Don't leave me 🥺♡"
   };
 
   const animationKeys = {
@@ -26,7 +27,8 @@
     dance: "dance",
     heart_shape: "heart",
     talking: "talk",
-    low_movement: "smile"
+    low_movement: "smile",
+    crying: "crying"
   };
 
   // Switch cute animated GIF reaction
@@ -63,8 +65,8 @@
     $("action-label").textContent = labels[action] || labels.low_movement;
     $("speech-bubble").hidden = action !== "talking";
 
-    if (action === "wave" || action === "dance" || action === "heart_shape") {
-      burst(action === "heart_shape" ? "♥" : action === "dance" ? "✦" : "♡");
+    if (action === "wave" || action === "dance" || action === "heart_shape" || action === "crying") {
+      burst(action === "heart_shape" ? "♥" : action === "dance" ? "✦" : action === "crying" ? "💧" : "♡");
     }
   }
 
@@ -197,10 +199,13 @@
       const gifImg = $("gif-character");
       if (gifImg) {
         gifImg.onerror = () => {
-          state.gifFailed = true;
-          gifImg.style.display = "none";
-          const av = $("avatar");
-          if (av) av.style.display = "block";
+          console.warn("[Mirror] GIF failed to load:", gifImg.src);
+          if (gifImg.src.includes("smile.gif")) {
+            state.gifFailed = true;
+            gifImg.style.display = "none";
+            const av = $("avatar");
+            if (av) av.style.display = "block";
+          }
         };
       }
 
@@ -227,13 +232,19 @@
     } catch (error) {
       console.error("Camera access error:", error);
       startBtn.disabled = false;
+      const cryBox = $("consent-cry-box");
+      if (cryBox) cryBox.style.display = "block";
       const message = error.name === "NotAllowedError"
-        ? "Camera permission nahi mili. Browser settings mein permission allow karke phir try karein ♡"
+        ? "Camera permission nahi mili. Please permission allow karke phir try karein ♡"
         : "Camera start nahi ho paaya. Please HTTPS connection par dobara try karein.";
       errorBox.textContent = message;
       errorBox.hidden = false;
     }
   }
 
-  $("start-button").addEventListener("click", start);
+  $("start-button").addEventListener("click", () => {
+    const cryBox = $("consent-cry-box");
+    if (cryBox) cryBox.style.display = "none";
+    start();
+  });
 })();

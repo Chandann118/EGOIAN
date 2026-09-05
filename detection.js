@@ -16,7 +16,13 @@ class MirrorDetector {
     const now = performance.now();
     let action = "low_movement", motion = 0;
     if (pose && this.previous) motion = Math.abs(pose[11].x - this.previous[11].x) + Math.abs(pose[11].y - this.previous[11].y) + Math.abs(pose[12].x - this.previous[12].x) + Math.abs(pose[12].y - this.previous[12].y);
-    if (pose) this.previous = pose;
+    if (!pose || !pose[0]) {
+      if (!this.noPersonSince) this.noPersonSince = now;
+      if (now - this.noPersonSince > 2500) action = "crying";
+    } else {
+      this.noPersonSince = null;
+      this.previous = pose;
+    }
     if (hands.length === 2) {
       const a = hands[0][8], b = hands[1][8], wrists = [hands[0][0], hands[1][0]];
       if (Math.hypot(a.x - b.x, a.y - b.y) < .16 && Math.abs(wrists[0].x - wrists[1].x) < .35) action = "heart_shape";
