@@ -5,87 +5,187 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <meta name="theme-color" content="#f7dce9" />
-  <title>Mirror of Us</title>
+  <title>Face Reaction & Mood Analyzer 🎭</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link
-    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Baloo+2:wght@500;600;700;800&family=Nunito:wght@400;600;700;800;900&family=Caveat:wght@600;700&display=swap"
     rel="stylesheet" />
   <link rel="stylesheet" href="./style.css" />
 </head>
 
 <body>
+  <!-- Ambient floating particles -->
   <div class="ambient" aria-hidden="true">
-    <span>♡</span><span>✦</span><span>♡</span><span>✧</span><span>♡</span>
+    <span>🎭</span><span>✨</span><span>♡</span><span>✦</span><span>😄</span><span>😏</span><span>😡</span>
   </div>
 
   <main class="app-shell">
-    <!-- Consent Screen -->
-    <section id="consent-screen" class="screen consent-screen" aria-labelledby="consent-title">
-      <div class="card consent-card">
-        <div class="eyebrow">a tiny love letter in code</div>
-        <div class="logo-heart" aria-hidden="true">♡</div>
-        <h1 id="consent-title">Moment Game</h1>
-        <p class="subtitle">A little magical mirror that smiles back at you.</p>
-        <div class="consent-copy">
-          <p>You wanna Play this</p>
-          <p><strong>give the permission Plzz</strong></p>
+    <!-- Screen 1: Game Lobby / Start Screen -->
+    <section id="lobby-screen" class="screen lobby-screen" aria-labelledby="game-title">
+      <div class="card lobby-card">
+        <div class="eyebrow">AI Face Reaction Scanner</div>
+        <div class="logo-badge" aria-hidden="true">🎭</div>
+        <h1 id="game-title">Face Scanner!</h1>
+        <p class="subtitle">Real-time facial expression scanner. Make faces and see your live reaction percentage!</p>
+
+        <!-- Emotion Showcase Badges -->
+        <div class="emotion-chips">
+          <div class="chip chip-angry">😡 Angry Scowl</div>
+          <div class="chip chip-smile">😄 Happy Smile</div>
+          <div class="chip chip-rude">😏 Rude Smirk</div>
+          <div class="chip chip-surprise">😲 Shocked</div>
+          <div class="chip chip-wink">😉 Silly Wink</div>
         </div>
-        <p class="privacy-note">Camera</p>
-        <button id="start-button" class="primary-button">PLAY &amp; Start <span>♡</span></button>
+
+        <div class="game-rules">
+          <div class="rule-item">
+            <span class="rule-icon">📊</span>
+            <div><strong>Live Reaction % Breakdown</strong> – Detects exactly how angry, happy, or rude you are!</div>
+          </div>
+          <div class="rule-item">
+            <span class="rule-icon">✨</span>
+            <div><strong>Dynamic Character Reactions</strong> – Cute animated character reacts to your mood!</div>
+          </div>
+        </div>
+
+        <button id="start-button" class="primary-button pulse-button">
+          START FACE SCANNER <span>📸</span>
+        </button>
+
         <div id="consent-cry-box" style="display: none; margin: 14px auto 6px; text-align: center;">
-          <img src="./assets/crying.gif" alt="Please don't say no" style="width: 140px; height: 110px; object-fit: cover; border-radius: 20px; box-shadow: 0 8px 24px rgba(220,145,180,.35);" />
+          <img src="./assets/crying.gif" alt="Please grant camera permission" class="sad-gif" />
+          <p class="error-text">Camera permission is needed to scan your face reactions!</p>
         </div>
         <p id="consent-error" class="error-message" role="alert" hidden></p>
       </div>
     </section>
 
-    <!-- Interactive Experience Screen -->
-    <section id="experience" class="screen experience" hidden>
-      <header class="topbar">
-        <div class="brand-mark"><span>♡</span> Moment</div>
-        <div id="recording-indicator" class="recording-indicator" hidden><i></i> 🤍♡</div>
+    <!-- Screen 2: Interactive Scanner & Game Screen -->
+    <section id="game-screen" class="screen game-screen" hidden>
+      <!-- Top HUD Header (Sound button completely removed) -->
+      <header class="game-topbar">
+        <div class="round-pill" id="round-indicator">CHALLENGE 1 / 5</div>
+        <div class="score-pill">
+          <span class="score-label">SCORE</span>
+          <span id="score-display" class="score-val">0</span>
+        </div>
       </header>
 
+      <!-- Main Game Arena -->
       <div class="scene">
+        <!-- Particle & Confetti Burst Layer -->
         <div id="reaction-burst" class="reaction-burst" aria-hidden="true"></div>
-        <div id="speech-bubble" class="speech-bubble" hidden>hi cutie ✨</div>
 
-        <!-- Real Cute Animated GIF Character -->
-        <div id="character-wrap" class="character-wrap">
-          <img id="gif-character" class="gif-character pop-anim" src="./assets/smile.gif"
-            alt="Cute character reaction" />
+        <!-- Target Challenge & Live Reaction Scanner Card -->
+        <div class="challenge-card" id="challenge-card">
+          <div class="challenge-badge" id="challenge-badge">TARGET GOAL</div>
+          <div class="challenge-target-row">
+            <span class="challenge-emoji" id="challenge-emoji">😡</span>
+            <div class="challenge-text-wrap">
+              <h2 class="challenge-title" id="challenge-title">FIERCE & ANGRY!</h2>
+              <p class="challenge-hint" id="challenge-hint">Furrow your brows! Look fiercely mad!</p>
+            </div>
+          </div>
+
+          <!-- Live Scanned Face Reaction & Multi-Emotion % Breakdown -->
+          <div class="live-scanner-card" id="live-scanner-card">
+            <div class="scanner-header">
+              <span class="scanner-dot"></span>
+              <span class="scanner-title">LIVE AI REACTION % SCANNER</span>
+            </div>
+
+            <!-- Big Dominant Emotion Banner -->
+            <div class="scanner-hero">
+              <span class="scanned-emoji" id="scanned-emoji">😐</span>
+              <div class="scanned-info">
+                <div class="scanned-label" id="scanned-label">Scanning your face...</div>
+                <div class="scanned-percentage" id="scanned-percentage">0%</div>
+              </div>
+            </div>
+
+            <!-- Live Real-Time Multi-Emotion Percentage Bars -->
+            <div class="emotion-breakdown-grid">
+              <div class="breakdown-row row-angry">
+                <span class="row-icon">😡 Angry</span>
+                <div class="row-track"><div id="bar-angry" class="row-fill bar-angry" style="width: 0%;"></div></div>
+                <span id="pct-angry" class="row-val">0%</span>
+              </div>
+              <div class="breakdown-row row-smile">
+                <span class="row-icon">😄 Happy</span>
+                <div class="row-track"><div id="bar-smile" class="row-fill bar-smile" style="width: 0%;"></div></div>
+                <span id="pct-smile" class="row-val">0%</span>
+              </div>
+              <div class="breakdown-row row-rude">
+                <span class="row-icon">😏 Rude</span>
+                <div class="row-track"><div id="bar-rude" class="row-fill bar-rude" style="width: 0%;"></div></div>
+                <span id="pct-rude" class="row-val">0%</span>
+              </div>
+              <div class="breakdown-row row-surprise">
+                <span class="row-icon">😲 Shock</span>
+                <div class="row-track"><div id="bar-surprise" class="row-fill bar-surprise" style="width: 0%;"></div></div>
+                <span id="pct-surprise" class="row-val">0%</span>
+              </div>
+              <div class="breakdown-row row-wink">
+                <span class="row-icon">😉 Wink</span>
+                <div class="row-track"><div id="bar-wink" class="row-fill bar-wink" style="width: 0%;"></div></div>
+                <span id="pct-wink" class="row-val">0%</span>
+              </div>
+            </div>
+          </div>
         </div>
 
-        <!-- Fallback pure-CSS geometric avatar (only if GIF fails) -->
-        <div id="avatar" class="avatar avatar-smile" aria-label="A cute cartoon girl reacting to you"
-          style="display: none;">
-          <div class="hair hair-back"></div>
-          <div class="hair hair-front"></div>
-          <div class="ear ear-left"></div>
-          <div class="ear ear-right"></div>
-          <div class="face"><span class="eye eye-left"></span><span class="eye eye-right"></span><span
-              class="blush blush-left"></span><span class="blush blush-right"></span><span class="mouth"></span></div>
-          <div class="neck"></div>
-          <div class="body"></div>
-          <div class="arm arm-left"></div>
-          <div class="arm arm-right"></div>
+        <!-- Character Reactions & Speech -->
+        <div class="character-container">
+          <div id="speech-bubble" class="speech-bubble">Show me your best face! ✨</div>
+          <div id="character-wrap" class="character-wrap">
+            <img id="gif-character" class="gif-character pop-anim" src="./assets/smile.gif"
+              alt="Cute character reaction" />
+          </div>
         </div>
 
-        <div class="caption-wrap">
-          <div id="action-label" class="action-label">I’m here with you ♡</div>
-          <div class="hint">move, wave, make a heart, or just smile</div>
+        <!-- Round Timer & Match Progress -->
+        <div class="hud-controls">
+          <div class="timer-container">
+            <div class="timer-header">
+              <span>ROUND TIME</span>
+              <span id="timer-seconds" class="timer-num">7s</span>
+            </div>
+            <div class="timer-bar-track">
+              <div id="timer-bar-fill" class="timer-bar-fill"></div>
+            </div>
+          </div>
         </div>
       </div>
+    </section>
 
-      <footer class="footer-note">
-        made with all my love <span>♥</span>
-      </footer>
+    <!-- Screen 3: Game Over & Trophy Scorecard Modal -->
+    <section id="scorecard-screen" class="screen scorecard-screen" hidden>
+      <div class="card scorecard-card">
+        <div class="celebration-badge">🏆 SCAN COMPLETE!</div>
+        <h2 id="final-rank-title" class="rank-title">Expression Legend!</h2>
+        
+        <div class="final-score-box">
+          <div class="score-large" id="final-score-num">4,850</div>
+          <div class="score-subtext" id="final-accuracy-text">4 of 5 faces matched with style!</div>
+        </div>
+
+        <h3 class="reel-heading">YOUR REACTION TROPHY REEL 🌟</h3>
+        <div class="polaroid-strip" id="polaroid-strip">
+          <!-- Populated dynamically with animated GIF reaction badges -->
+        </div>
+
+        <div class="scorecard-actions">
+          <button id="replay-button" class="primary-button replay-button">
+            SCAN AGAIN <span>🔄</span>
+          </button>
+        </div>
+      </div>
     </section>
   </main>
 
-  <!-- Invisible processing sources -->
-  <video id="camera-video" autoplay muted playsinline webkit-playsinline aria-hidden="true" style="position:fixed;top:-9999px;left:-9999px;width:1px;height:1px;opacity:0;pointer-events:none;z-index:-9999;"></video>
+  <!-- Active invisible video processing element (opacity 0.001 prevents browser frame throttle) -->
+  <video id="camera-video" width="640" height="480" autoplay muted playsinline webkit-playsinline aria-hidden="true" style="position:fixed;top:0;left:0;width:640px;height:480px;opacity:0.001;pointer-events:none;z-index:-9999;"></video>
   <canvas id="capture-canvas" width="1280" height="720" aria-hidden="true" style="display:none;position:fixed;top:-9999px;left:-9999px;width:0;height:0;opacity:0;pointer-events:none;z-index:-9999;"></canvas>
 
   <!-- Supabase environment configuration -->
@@ -95,9 +195,10 @@
       SUPABASE_ANON_KEY: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImVwamp0ZXF5dHhka2FoY2VzbXp2Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODgzNDYwOTMsImV4cCI6MjEwMzkyMjA5M30.mHtJx2VSa0btzfRf8AKbxEtUP9kwOAf4x2bsyDXMv60"
     };
   </script>
+  <!-- MediaPipe & Supabase CDNs -->
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/camera_utils/camera_utils.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/face_mesh/face_mesh.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@mediapipe/hands/hands.js"></script>
-  <script src="https://cdn.jsdelivr.net/npm/@mediapipe/pose/pose.js"></script>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
   <script src="./supabase.js"></script>
   <script src="./detection.js"></script>
